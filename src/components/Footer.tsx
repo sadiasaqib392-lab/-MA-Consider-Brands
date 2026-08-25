@@ -127,7 +127,37 @@ export const Footer: React.FC = () => {
             </li>
             <li>
               <button onClick={() => navigateTo('shop')} className="hover:text-amber-400 transition-colors">
-                Shop All Tools Catalog
+                Shop All Products Catalog
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('categories')} className="hover:text-amber-400 transition-colors">
+                Tool Categories Explorer
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('deals')} className="hover:text-amber-400 transition-colors text-amber-400 font-bold">
+                Exclusive Deals & Specials
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('compare')} className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <span>Compare Tools Specs</span>
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('wishlist')} className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <span>Saved Wishlist</span>
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('warranty')} className="hover:text-amber-400 transition-colors">
+                3-Year Warranty & Service
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('cart')} className="hover:text-amber-400 transition-colors">
+                View Shopping Cart
               </button>
             </li>
             <li>

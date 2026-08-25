@@ -7,6 +7,7 @@ import regeneratedBatteryImg from '../assets/images/regenerated_image_1787646468
 import regeneratedComboKitImg from '../assets/images/regenerated_image_1787646470529.jpg';
 import regeneratedTableSawImg from '../assets/images/regenerated_image_1787646471744.jpg';
 import regeneratedStorageBoxImg from '../assets/images/regenerated_image_1787646472502.jpg';
+import maTapeMeasureImg from '../assets/images/ma_tape_measure_1787647820275.jpg';
 
 export const PRODUCTS: Product[] = [
   {
@@ -489,9 +490,10 @@ export const PRODUCTS: Product[] = [
       '1x MA CONSIDER ToughSeries 25 Ft Magnetic Tape Measure'
     ],
     images: [
-      'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=1000&q=80',
+      maTapeMeasureImg,
       'https://images.unsplash.com/photo-1586864387789-628af9feed72?auto=format&fit=crop&w=1000&q=80'
-    ]
+    ],
+    imageSlotId: 11
   },
   {
     id: 'maconsider-dwa2t40ir',

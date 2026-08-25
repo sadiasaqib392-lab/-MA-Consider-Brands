@@ -7,6 +7,7 @@ import regeneratedBatteryImg from '../assets/images/regenerated_image_1787646468
 import regeneratedComboKitImg from '../assets/images/regenerated_image_1787646470529.jpg';
 import regeneratedTableSawImg from '../assets/images/regenerated_image_1787646471744.jpg';
 import regeneratedStorageBoxImg from '../assets/images/regenerated_image_1787646472502.jpg';
+import maTapeMeasureImg from '../assets/images/ma_tape_measure_1787647820275.jpg';
 
 export const INITIAL_IMAGE_SLOTS: ImageSlot[] = [
   {
@@ -87,6 +88,14 @@ export const INITIAL_IMAGE_SLOTS: ImageSlot[] = [
     location: 'Storage & Organization Showcase - DWST08165',
     description: 'Heavy duty waterproof rolling toolbox stack.',
     defaultUrl: regeneratedStorageBoxImg,
+    customUrl: ''
+  },
+  {
+    id: 11,
+    title: 'Slot 11: ToughSeries Magnetic Tape Measure',
+    location: 'Hand Tools Showcase - DWHT36727 25-Ft Tape',
+    description: 'High-visibility yellow & black MA CONSIDER durable tape measure.',
+    defaultUrl: maTapeMeasureImg,
     customUrl: ''
   }
 ];

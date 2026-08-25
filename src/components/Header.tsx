@@ -4,6 +4,7 @@ import {
   Search,
   ShoppingCart,
   Heart,
+  Scale,
   Menu,
   X,
   Phone,
@@ -15,7 +16,9 @@ import {
   ArrowRight,
   Sparkles,
   Package,
-  Wrench
+  Wrench,
+  Award,
+  HardHat
 } from 'lucide-react';
 import { PageView } from '../types';
 import { BrandLogo } from './BrandLogo';
@@ -26,6 +29,7 @@ export const Header: React.FC = () => {
     navigateTo,
     cartCount,
     wishlist,
+    compareList,
     setIsCartDrawerOpen,
     setIsImageManagerOpen,
     searchQuery,
@@ -73,14 +77,16 @@ export const Header: React.FC = () => {
     }
   };
 
-  const navLinks: { label: string; page: PageView; category?: string }[] = [
+  const navLinks: { label: string; page: PageView; category?: string; highlight?: boolean; badge?: string }[] = [
     { label: 'Home', page: 'home' },
-    { label: 'All Shop', page: 'shop' },
-    { label: 'Power Tools', page: 'shop', category: 'power-tools' },
-    { label: 'Hand Tools', page: 'shop', category: 'hand-tools' },
-    { label: 'Batteries & Chargers', page: 'shop', category: 'batteries-chargers' },
-    { label: 'Accessories', page: 'shop', category: 'tool-accessories' },
+    { label: 'All Products', page: 'shop' },
+    { label: 'Categories', page: 'categories' },
+    { label: 'Deals & Specials', page: 'deals', highlight: true, badge: 'HOT' },
+    { label: 'Pro Contractor', page: 'pro-contractor', badge: 'B2B' },
+    { label: 'Compare', page: 'compare' },
+    { label: 'Wishlist', page: 'wishlist' },
     { label: 'Track Order', page: 'track-order' },
+    { label: 'Warranty', page: 'warranty' },
     { label: 'About Us', page: 'about' },
     { label: 'Contact', page: 'contact' }
   ];
@@ -229,23 +235,47 @@ export const Header: React.FC = () => {
             {/* Image Slots Manager quick launch */}
             <button
               onClick={() => setIsImageManagerOpen(true)}
-              className="lg:hidden p-2 rounded-lg text-amber-400 hover:bg-zinc-900 transition-colors"
+              className="hidden sm:flex items-center gap-1 text-[11px] font-bold bg-zinc-900 text-amber-400 hover:bg-zinc-800 p-2 sm:px-2.5 sm:py-1.5 rounded-lg border border-zinc-800 hover:border-amber-400/40 transition-colors cursor-pointer"
               title="Configure 10 Image Slots"
               aria-label="Image Slots"
             >
-              <SlidersHorizontal className="w-5 h-5" />
+              <SlidersHorizontal className="w-4 h-4 text-amber-400" />
+              <span className="hidden md:inline">Image Slots</span>
+            </button>
+
+            {/* Compare Tools Button */}
+            <button
+              onClick={() => navigateTo('compare')}
+              className={`relative p-2 rounded-lg transition-colors cursor-pointer ${
+                activePage === 'compare'
+                  ? 'bg-amber-400/10 text-amber-400 border border-amber-400/30'
+                  : 'text-zinc-300 hover:text-amber-400 hover:bg-zinc-900'
+              }`}
+              title="Compare Tools Head-to-Head"
+              aria-label="Compare Tools"
+            >
+              <Scale className="w-5 h-5" />
+              {compareList.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-amber-400 text-zinc-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-md">
+                  {compareList.length}
+                </span>
+              )}
             </button>
 
             {/* Wishlist Button */}
             <button
-              onClick={() => navigateTo('shop')}
-              className="relative p-2 rounded-lg text-zinc-300 hover:text-amber-400 hover:bg-zinc-900 transition-colors"
-              title="Saved Tools"
+              onClick={() => navigateTo('wishlist')}
+              className={`relative p-2 rounded-lg transition-colors cursor-pointer ${
+                activePage === 'wishlist'
+                  ? 'bg-amber-400/10 text-amber-400 border border-amber-400/30'
+                  : 'text-zinc-300 hover:text-amber-400 hover:bg-zinc-900'
+              }`}
+              title="Saved Wishlist Tools"
               aria-label="Saved Tools"
             >
               <Heart className="w-5 h-5" />
               {wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-400 text-zinc-950 text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-md">
+                <span className="absolute -top-1 -right-1 bg-amber-400 text-zinc-950 text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-md">
                   {wishlist.length}
                 </span>
               )}
@@ -254,7 +284,7 @@ export const Header: React.FC = () => {
             {/* Shopping Cart Trigger */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="relative flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-amber-400/40 text-zinc-100 px-3.5 py-2 rounded-lg transition-all"
+              className="relative flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-amber-400/40 text-zinc-100 px-3 py-2 rounded-lg transition-all cursor-pointer"
               id="header-cart-button"
               aria-label="Shopping Cart"
             >
@@ -274,7 +304,7 @@ export const Header: React.FC = () => {
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-zinc-300 hover:text-amber-400 hover:bg-zinc-900 transition-colors"
+              className="lg:hidden p-2 rounded-lg text-zinc-300 hover:text-amber-400 hover:bg-zinc-900 transition-colors cursor-pointer"
               aria-label="Open Menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -282,14 +312,11 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop Category Navigation Row */}
-        <nav className="hidden lg:flex items-center justify-between border-t border-zinc-900 py-2.5 text-xs font-semibold">
-          <div className="flex items-center space-x-6">
+        {/* Desktop Multi-Page Navigation Row */}
+        <nav className="hidden lg:flex items-center justify-between border-t border-zinc-900 py-2.5 text-xs font-semibold overflow-x-auto">
+          <div className="flex items-center space-x-5 xl:space-x-6 shrink-0">
             {navLinks.map((item) => {
-              const isActive =
-                item.category
-                  ? activePage === item.page && item.category === 'power-tools' // contextual
-                  : activePage === item.page;
+              const isActive = activePage === item.page;
 
               return (
                 <button
@@ -297,13 +324,18 @@ export const Header: React.FC = () => {
                   onClick={() => {
                     navigateTo(item.page, item.category || null);
                   }}
-                  className={`relative py-1 tracking-wide transition-colors uppercase ${
+                  className={`relative py-1 tracking-wide transition-colors uppercase flex items-center gap-1.5 cursor-pointer ${
                     isActive
                       ? 'text-amber-400 font-bold'
                       : 'text-zinc-400 hover:text-zinc-100'
                   }`}
                 >
-                  {item.label}
+                  <span>{item.label}</span>
+                  {item.badge && (
+                    <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-400 text-zinc-950 uppercase tracking-tighter">
+                      {item.badge}
+                    </span>
+                  )}
                   {isActive && (
                     <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400 rounded-full" />
                   )}
@@ -312,11 +344,14 @@ export const Header: React.FC = () => {
             })}
           </div>
 
-          <div className="flex items-center gap-4 text-zinc-400 text-xs">
-            <span className="flex items-center gap-1.5 text-zinc-400">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Verified USA Shipping</span>
-            </span>
+          <div className="flex items-center gap-4 text-zinc-400 text-xs shrink-0 pl-4">
+            <button
+              onClick={() => navigateTo('warranty')}
+              className="flex items-center gap-1.5 text-zinc-400 hover:text-amber-400 transition-colors cursor-pointer"
+            >
+              <ShieldCheck className="w-4 h-4 text-amber-400" />
+              <span>3-Yr Warranty</span>
+            </button>
           </div>
         </nav>
       </div>

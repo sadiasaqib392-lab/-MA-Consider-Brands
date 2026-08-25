@@ -10,9 +10,11 @@ import {
   ShieldCheck,
   Truck,
   Percent,
-  CheckCircle
+  CheckCircle,
+  ShoppingBag
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { MABadge } from './MABadge';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -138,12 +140,15 @@ export const CartDrawer: React.FC = () => {
                 const prodImg = getImageUrl(item.product.imageSlotId, item.product.images[0]);
                 return (
                   <div key={item.product.id} className="pt-4 first:pt-0 flex gap-4">
-                    {/* Item Image */}
-                    <img
-                      src={prodImg}
-                      alt={item.product.name}
-                      className="w-16 h-16 rounded-lg object-contain bg-zinc-950 border border-zinc-800 p-1.5 shrink-0"
-                    />
+                    {/* Item Image with MA Badge */}
+                    <div className="relative w-16 h-16 rounded-lg bg-zinc-950 border border-zinc-800 p-1.5 shrink-0 flex items-center justify-center overflow-hidden">
+                      <MABadge size="xs" variant="amber" position="top-left" showText={false} />
+                      <img
+                        src={prodImg}
+                        alt={item.product.name}
+                        className="w-full h-full object-contain filter brightness-110 contrast-105"
+                      />
+                    </div>
 
                     {/* Item Info */}
                     <div className="flex-1 min-w-0">

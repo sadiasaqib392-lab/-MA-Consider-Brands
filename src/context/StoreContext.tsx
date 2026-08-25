@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Product, CartItem, CustomerOrder, ImageSlot, PageView } from '../types';
 import { PRODUCTS } from '../data/products';
 import { INITIAL_IMAGE_SLOTS } from '../data/imageSlots';
@@ -14,6 +15,7 @@ interface StoreContextType {
   products: Product[];
   cart: CartItem[];
   wishlist: string[];
+  compareList: string[];
   orders: CustomerOrder[];
   activePage: PageView;
   selectedCategory: string | null;
@@ -48,6 +50,11 @@ interface StoreContextType {
   // Wishlist actions
   toggleWishlist: (productId: string) => void;
   isWishlisted: (productId: string) => boolean;
+
+  // Compare actions
+  toggleCompare: (productId: string) => void;
+  isInCompare: (productId: string) => boolean;
+  clearCompare: () => void;
 
   // Order actions
   createOrder: (orderData: Omit<CustomerOrder, 'id' | 'orderNumber' | 'date' | 'status' | 'trackingNumber' | 'carrier' | 'estimatedDelivery'>) => CustomerOrder;
@@ -88,6 +95,15 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [wishlist, setWishlist] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem('ma_consider_wishlist');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [compareList, setCompareList] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('ma_consider_compare');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -154,7 +170,27 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
-  const [activePage, setActivePage] = useState<PageView>('home');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [products] = useState<Product[]>(PRODUCTS);
+
+  const [activePage, setActivePage] = useState<PageView>(() => {
+    const path = window.location.pathname.replace(/^\//, '');
+    if (!path || path === 'home') return 'home';
+    if (path === 'shop' || path === 'products') return 'shop';
+    if (path === 'categories') return 'categories';
+    if (path === 'deals') return 'deals';
+    if (path === 'wishlist') return 'wishlist';
+    if (path === 'compare') return 'compare';
+    if (path === 'cart') return 'cart';
+    if (path === 'pro-contractor') return 'pro-contractor';
+    if (path === 'warranty') return 'warranty';
+    if (path === 'about') return 'about';
+    if (path === 'contact') return 'contact';
+    if (path === 'track-order') return 'track-order';
+    if (path.startsWith('product/')) return 'product-detail';
+    return 'home';
+  });
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -165,6 +201,33 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountPercent: number; discountAmount?: number } | null>(null);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
+  // Sync state when browser URL path changes (e.g. Back/Forward button)
+  useEffect(() => {
+    const path = location.pathname.replace(/^\//, '');
+    let resolvedPage: PageView = 'home';
+    if (!path || path === 'home') resolvedPage = 'home';
+    else if (path === 'shop' || path === 'products') resolvedPage = 'shop';
+    else if (path === 'categories') resolvedPage = 'categories';
+    else if (path === 'deals') resolvedPage = 'deals';
+    else if (path === 'wishlist') resolvedPage = 'wishlist';
+    else if (path === 'compare') resolvedPage = 'compare';
+    else if (path === 'cart') resolvedPage = 'cart';
+    else if (path === 'pro-contractor') resolvedPage = 'pro-contractor';
+    else if (path === 'warranty') resolvedPage = 'warranty';
+    else if (path === 'about') resolvedPage = 'about';
+    else if (path === 'contact') resolvedPage = 'contact';
+    else if (path === 'track-order') resolvedPage = 'track-order';
+    else if (path.startsWith('product/')) {
+      resolvedPage = 'product-detail';
+      const productId = path.replace('product/', '');
+      if (productId) {
+        const found = products.find(p => p.id === productId);
+        if (found) setSelectedProduct(found);
+      }
+    }
+    setActivePage(resolvedPage);
+  }, [location.pathname, products]);
+
   // Sync with localStorage
   useEffect(() => {
     localStorage.setItem('ma_consider_cart', JSON.stringify(cart));
@@ -173,6 +236,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     localStorage.setItem('ma_consider_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
+
+  useEffect(() => {
+    localStorage.setItem('ma_consider_compare', JSON.stringify(compareList));
+  }, [compareList]);
 
   useEffect(() => {
     localStorage.setItem('ma_consider_orders', JSON.stringify(orders));
@@ -185,7 +252,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [activePage, selectedProduct]);
+  }, [location.pathname, activePage, selectedProduct]);
 
   // Toast handler
   const showToast = (title: string, message: string, type: 'success' | 'info' | 'warning' = 'success') => {
@@ -207,6 +274,29 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
     if (product !== undefined) {
       setSelectedProduct(product);
+    }
+
+    // Push URL via react-router-dom
+    let targetPath = '/';
+    if (page === 'home') targetPath = '/';
+    else if (page === 'shop') targetPath = '/shop';
+    else if (page === 'categories') targetPath = '/categories';
+    else if (page === 'deals') targetPath = '/deals';
+    else if (page === 'wishlist') targetPath = '/wishlist';
+    else if (page === 'compare') targetPath = '/compare';
+    else if (page === 'cart') targetPath = '/cart';
+    else if (page === 'pro-contractor') targetPath = '/pro-contractor';
+    else if (page === 'warranty') targetPath = '/warranty';
+    else if (page === 'about') targetPath = '/about';
+    else if (page === 'contact') targetPath = '/contact';
+    else if (page === 'track-order') targetPath = '/track-order';
+    else if (page === 'product-detail') {
+      const prodId = product?.id || selectedProduct?.id || '';
+      targetPath = prodId ? `/product/${prodId}` : '/shop';
+    }
+
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
     }
   };
 
@@ -286,6 +376,32 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const isWishlisted = (productId: string) => wishlist.includes(productId);
+
+  // Compare List
+  const toggleCompare = (productId: string) => {
+    setCompareList(prev => {
+      const exists = prev.includes(productId);
+      if (exists) {
+        showToast('Removed from Compare', 'Tool removed from comparison sheet.', 'info');
+        return prev.filter(id => id !== productId);
+      } else {
+        if (prev.length >= 4) {
+          showToast('Comparison Limit Reached', 'You can compare up to 4 tools at a time.', 'warning');
+          return prev;
+        }
+        const prod = PRODUCTS.find(p => p.id === productId);
+        showToast('Added to Compare', `${prod ? prod.name : 'Tool'} added to compare table.`);
+        return [...prev, productId];
+      }
+    });
+  };
+
+  const isInCompare = (productId: string) => compareList.includes(productId);
+
+  const clearCompare = () => {
+    setCompareList([]);
+    showToast('Compare Cleared', 'All tools removed from comparison.', 'info');
+  };
 
   // Financial computations
   const cartSubtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
@@ -378,6 +494,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         products: PRODUCTS,
         cart,
         wishlist,
+        compareList,
         orders,
         activePage,
         selectedCategory,
@@ -406,6 +523,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         removeCoupon,
         toggleWishlist,
         isWishlisted,
+        toggleCompare,
+        isInCompare,
+        clearCompare,
         createOrder,
         findOrderByTracking,
         updateImageSlot,

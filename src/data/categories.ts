@@ -5,6 +5,7 @@ import regeneratedSawImg from '../assets/images/regenerated_image_1787645915064.
 import regeneratedGrinderImg from '../assets/images/regenerated_image_1787645916684.webp';
 import regeneratedBatteryImg from '../assets/images/regenerated_image_1787646468544.jpg';
 import regeneratedComboKitImg from '../assets/images/regenerated_image_1787646470529.jpg';
+import maTapeMeasureImg from '../assets/images/ma_tape_measure_1787647820275.jpg';
 
 export const CATEGORIES: Category[] = [
   {
@@ -66,7 +67,7 @@ export const CATEGORIES: Category[] = [
     name: 'Hand Tools',
     slug: 'hand-tools',
     iconName: 'Hammer',
-    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&q=80',
+    image: maTapeMeasureImg,
     count: 22,
     description: 'Contractor tape measures, magnetic levels, utility knives, pliers & claw hammers.'
   },

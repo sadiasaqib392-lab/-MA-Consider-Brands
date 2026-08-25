@@ -12,6 +12,7 @@ import {
   Minus,
   CheckCircle2
 } from 'lucide-react';
+import { MABadge } from './MABadge';
 
 export const QuickViewModal: React.FC = () => {
   const {
@@ -39,28 +40,30 @@ export const QuickViewModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-zinc-950/80 backdrop-blur-sm p-4 sm:p-6 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-zinc-950/85 backdrop-blur-sm p-4 sm:p-6 flex items-center justify-center">
       <div className="relative w-full max-w-3xl rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl overflow-hidden text-zinc-100">
         <button
           onClick={() => setQuickViewProduct(null)}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-zinc-950/80 text-zinc-400 hover:text-white border border-zinc-800"
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-zinc-950/80 text-zinc-400 hover:text-white border border-zinc-800 cursor-pointer"
           aria-label="Close Quick View"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* Left Image Spotlight */}
+          {/* Left Image Spotlight with MA Badge */}
           <div className="relative aspect-square bg-zinc-950 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-zinc-800">
+            <MABadge size="sm" variant="amber" position="top-left" />
+
             {quickViewProduct.dealTag && (
-              <span className="absolute top-4 left-4 text-xs font-black bg-amber-400 text-zinc-950 px-2.5 py-0.5 rounded uppercase">
+              <span className="absolute top-4 right-14 text-xs font-black bg-amber-400 text-zinc-950 px-2.5 py-0.5 rounded uppercase">
                 {quickViewProduct.dealTag}
               </span>
             )}
             <img
               src={displayImage}
               alt={quickViewProduct.name}
-              className="max-h-full max-w-full object-contain filter contrast-105"
+              className="max-h-full max-w-full object-contain filter brightness-110 contrast-105"
             />
           </div>
 
