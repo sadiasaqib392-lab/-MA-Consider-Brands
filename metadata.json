@@ -1,0 +1,6 @@
+{
+  "name": "MA Consider Brands - Professional Tools & Power Tools",
+  "description": "Premium USA-focused online power tools and professional equipment store featuring high-performance cordless drills, impact wrenches, saws, batteries, combo kits, and jobsite gear.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
