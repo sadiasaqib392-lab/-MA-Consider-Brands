@@ -79,15 +79,16 @@ export const Header: React.FC = () => {
 
   const navLinks: { label: string; page: PageView; category?: string; highlight?: boolean; badge?: string }[] = [
     { label: 'Home', page: 'home' },
-    { label: 'All Products', page: 'shop' },
+    { label: 'About', page: 'about' },
+    { label: 'Services', page: 'services', badge: 'PRO' },
+    { label: 'Gallery', page: 'gallery' },
+    { label: 'Shop Tools', page: 'shop' },
     { label: 'Categories', page: 'categories' },
-    { label: 'Deals & Specials', page: 'deals', highlight: true, badge: 'HOT' },
-    { label: 'Pro Contractor', page: 'pro-contractor', badge: 'B2B' },
+    { label: 'Deals', page: 'deals', highlight: true, badge: 'HOT' },
+    { label: 'Pro Contractor', page: 'pro-contractor' },
     { label: 'Compare', page: 'compare' },
     { label: 'Wishlist', page: 'wishlist' },
     { label: 'Track Order', page: 'track-order' },
-    { label: 'Warranty', page: 'warranty' },
-    { label: 'About Us', page: 'about' },
     { label: 'Contact', page: 'contact' }
   ];
 

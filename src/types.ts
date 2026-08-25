@@ -81,6 +81,10 @@ export interface ImageSlot {
 
 export type PageView =
   | 'home'
+  | 'about'
+  | 'services'
+  | 'gallery'
+  | 'contact'
   | 'shop'
   | 'categories'
   | 'deals'
@@ -88,8 +92,6 @@ export type PageView =
   | 'compare'
   | 'pro-contractor'
   | 'warranty'
-  | 'about'
-  | 'contact'
   | 'track-order'
   | 'product-detail'
   | 'cart';

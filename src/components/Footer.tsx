@@ -126,6 +126,26 @@ export const Footer: React.FC = () => {
               </button>
             </li>
             <li>
+              <button onClick={() => navigateTo('about')} className="hover:text-amber-400 transition-colors">
+                About MA Consider Brands
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('services')} className="hover:text-amber-400 transition-colors">
+                Contractor Services & Fleet
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('gallery')} className="hover:text-amber-400 transition-colors">
+                Tool & Jobsite Gallery
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigateTo('contact')} className="hover:text-amber-400 transition-colors">
+                Contact & Support Desk
+              </button>
+            </li>
+            <li>
               <button onClick={() => navigateTo('shop')} className="hover:text-amber-400 transition-colors">
                 Shop All Products Catalog
               </button>
@@ -156,11 +176,6 @@ export const Footer: React.FC = () => {
               </button>
             </li>
             <li>
-              <button onClick={() => navigateTo('cart')} className="hover:text-amber-400 transition-colors">
-                View Shopping Cart
-              </button>
-            </li>
-            <li>
               <button onClick={() => navigateTo('pro-contractor')} className="hover:text-amber-400 transition-colors">
                 Pro Contractor Quotes
               </button>
@@ -168,16 +183,6 @@ export const Footer: React.FC = () => {
             <li>
               <button onClick={() => navigateTo('track-order')} className="hover:text-amber-400 transition-colors">
                 Track USA Shipment
-              </button>
-            </li>
-            <li>
-              <button onClick={() => navigateTo('about')} className="hover:text-amber-400 transition-colors">
-                About MA Consider Brands
-              </button>
-            </li>
-            <li>
-              <button onClick={() => navigateTo('contact')} className="hover:text-amber-400 transition-colors">
-                Contact & Support Desk
               </button>
             </li>
           </ul>

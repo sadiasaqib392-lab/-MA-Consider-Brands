@@ -9,6 +9,8 @@ import { DealsPage } from './components/DealsPage';
 import { CartPage } from './components/CartPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutUsPage } from './components/AboutUsPage';
+import { ServicesPage } from './components/ServicesPage';
+import { GalleryPage } from './components/GalleryPage';
 import { ContactPage } from './components/ContactPage';
 import { TrackOrderPage } from './components/TrackOrderPage';
 import { WishlistPage } from './components/WishlistPage';
@@ -41,6 +43,10 @@ const MainContent: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/products" element={<ShopPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
@@ -51,8 +57,6 @@ const MainContent: React.FC = () => {
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/pro-contractor" element={<ProContractorPage />} />
           <Route path="/warranty" element={<WarrantyPage />} />
-          <Route path="/about" element={<AboutUsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
           <Route path="/track-order" element={<TrackOrderPage />} />
           {/* Catch-all fallback */}
           <Route path="*" element={<HomePage />} />

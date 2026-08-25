@@ -177,6 +177,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [activePage, setActivePage] = useState<PageView>(() => {
     const path = window.location.pathname.replace(/^\//, '');
     if (!path || path === 'home') return 'home';
+    if (path === 'about') return 'about';
+    if (path === 'services') return 'services';
+    if (path === 'gallery') return 'gallery';
+    if (path === 'contact') return 'contact';
     if (path === 'shop' || path === 'products') return 'shop';
     if (path === 'categories') return 'categories';
     if (path === 'deals') return 'deals';
@@ -185,8 +189,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (path === 'cart') return 'cart';
     if (path === 'pro-contractor') return 'pro-contractor';
     if (path === 'warranty') return 'warranty';
-    if (path === 'about') return 'about';
-    if (path === 'contact') return 'contact';
     if (path === 'track-order') return 'track-order';
     if (path.startsWith('product/')) return 'product-detail';
     return 'home';
@@ -206,6 +208,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const path = location.pathname.replace(/^\//, '');
     let resolvedPage: PageView = 'home';
     if (!path || path === 'home') resolvedPage = 'home';
+    else if (path === 'about') resolvedPage = 'about';
+    else if (path === 'services') resolvedPage = 'services';
+    else if (path === 'gallery') resolvedPage = 'gallery';
+    else if (path === 'contact') resolvedPage = 'contact';
     else if (path === 'shop' || path === 'products') resolvedPage = 'shop';
     else if (path === 'categories') resolvedPage = 'categories';
     else if (path === 'deals') resolvedPage = 'deals';
@@ -214,8 +220,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     else if (path === 'cart') resolvedPage = 'cart';
     else if (path === 'pro-contractor') resolvedPage = 'pro-contractor';
     else if (path === 'warranty') resolvedPage = 'warranty';
-    else if (path === 'about') resolvedPage = 'about';
-    else if (path === 'contact') resolvedPage = 'contact';
     else if (path === 'track-order') resolvedPage = 'track-order';
     else if (path.startsWith('product/')) {
       resolvedPage = 'product-detail';
@@ -279,6 +283,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Push URL via react-router-dom
     let targetPath = '/';
     if (page === 'home') targetPath = '/';
+    else if (page === 'about') targetPath = '/about';
+    else if (page === 'services') targetPath = '/services';
+    else if (page === 'gallery') targetPath = '/gallery';
+    else if (page === 'contact') targetPath = '/contact';
     else if (page === 'shop') targetPath = '/shop';
     else if (page === 'categories') targetPath = '/categories';
     else if (page === 'deals') targetPath = '/deals';
@@ -287,8 +295,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     else if (page === 'cart') targetPath = '/cart';
     else if (page === 'pro-contractor') targetPath = '/pro-contractor';
     else if (page === 'warranty') targetPath = '/warranty';
-    else if (page === 'about') targetPath = '/about';
-    else if (page === 'contact') targetPath = '/contact';
     else if (page === 'track-order') targetPath = '/track-order';
     else if (page === 'product-detail') {
       const prodId = product?.id || selectedProduct?.id || '';
